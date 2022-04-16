@@ -35,7 +35,7 @@ public class ConnectedWaypoint : MonoBehaviour
 
         }
 
-        Debug.Log(m_AdjacentWaypoints.Count);
+       
 
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 //This script is responsible for defining an abstract finite state machine class
 //It declares the core functionality of a state
@@ -21,9 +22,25 @@ public enum ExecutionState
     TERMINATED,
 };
 
+public enum FSMStateType
+{
+    IDLE,
+    PATROL,
+    CHASE,
+};
+
+
 public abstract class AbstractFSMState : ScriptableObject
 {
     public ExecutionState ExecutionState { get; protected set; }
+
+    public FSMStateType StateType { get; protected set; }
+
+    public bool EnteredState { get; protected set; }
+
+    protected NavMeshAgent p_NavMeshAgent;
+    protected NPC p_NPC;
+    protected FiniteStateMachine p_FiniteStateMachine;
 
     public virtual void OnEnable()
     {
@@ -34,8 +51,17 @@ public abstract class AbstractFSMState : ScriptableObject
     //Check if the state has been entered succesfully
     public virtual bool EnterState()
     {
+        bool successMeshAgent = true;
+        bool successNPC = true;
+
+        //Does the nav mesh agent exist?
+        successMeshAgent = (p_NavMeshAgent != null); //Success is true as long as navmesh is not null
+
+        //Does the NPC exist?
+        successNPC = (p_NPC != null);
+
         ExecutionState = ExecutionState.ACTIVATE;
-        return true;
+        return successMeshAgent && successNPC;
     }
 
 
@@ -51,5 +77,28 @@ public abstract class AbstractFSMState : ScriptableObject
         return true;
     }
 
+    public virtual void SetNavMeshAgent(NavMeshAgent navMeshAgent)
+    {
+        if (navMeshAgent != null)
+        {
+            p_NavMeshAgent = navMeshAgent;
+        }
+    }
+
+    public virtual void SetExecutingNPC(NPC npc)
+    {
+        if (npc != null)
+        {
+            p_NPC = npc;
+        }
+    }
+
+    public virtual void SetExecutingFSM(FiniteStateMachine finiteStateMachine)
+    {
+        if (finiteStateMachine != null)
+        {
+            p_FiniteStateMachine = finiteStateMachine;
+        }
+    }
 
 }

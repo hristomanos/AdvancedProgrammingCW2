@@ -8,17 +8,45 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "IdleState", menuName = "Unity-FSM/States/Idle")]
 public class IdleState : AbstractFSMState
 {
+    [SerializeField] float m_Duration = 3f;
+
+    float m_TotalDuration;
+
+    public override void OnEnable()
+    {
+        base.OnEnable();
+        StateType = FSMStateType.IDLE;
+    }
+
+
     public override bool EnterState()
     {
-        base.EnterState();
-        Debug.Log("Entered Idle state");
+        EnteredState = base.EnterState();
 
-        return true;
+        if (EnteredState)
+        {
+            Debug.Log("Entered Idle state");
+            m_TotalDuration = 0;
+        }
+
+        
+        return EnteredState;
     }
 
     public override void UpdateState()
     {
-        Debug.Log("Updating Idle State");
+        if (EnteredState)
+        {
+            m_TotalDuration += Time.deltaTime;
+           // Debug.Log("Updating Idle State " + m_TotalDuration + " seconds.");
+
+
+            if (m_TotalDuration >= m_Duration)
+            {
+                p_FiniteStateMachine.EnterState(FSMStateType.PATROL);
+            }
+
+        }
     }
 
     public override bool ExitState()
