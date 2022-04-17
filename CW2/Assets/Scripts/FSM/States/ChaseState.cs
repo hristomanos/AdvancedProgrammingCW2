@@ -10,7 +10,8 @@ public class ChaseState : AbstractFSMState
     Transform m_Target;
     float m_DistanceToTarget;
 
-    
+    public delegate void KillPray();
+    public static event KillPray onKillPray;
     
 
     public override void OnEnable()
@@ -52,6 +53,15 @@ public class ChaseState : AbstractFSMState
             {
                 Debug.Log("Pray was caught!");
                 //Destroy pray game object
+
+                if (onKillPray != null)
+                {
+                    onKillPray();
+                }
+                else
+                {
+                    Debug.Log("onkillPray is null");
+                }
 
                 p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
             }
