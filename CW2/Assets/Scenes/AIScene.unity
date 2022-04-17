@@ -469,7 +469,7 @@ GameObject:
   - component: {fileID: 825246242}
   - component: {fileID: 825246241}
   - component: {fileID: 825246245}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Block_Centre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -851,7 +851,8 @@ GameObject:
   - component: {fileID: 1534332149}
   - component: {fileID: 1534332153}
   - component: {fileID: 1534332148}
-  m_Layer: 0
+  - component: {fileID: 1534332154}
+  m_Layer: 8
   m_Name: Pray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -971,6 +972,26 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1534332154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534332147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b4198bc366c0b4e94e20406e656cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  g_ViewRadius: 2.6
+  g_ViewAngle: 95
+  g_TargetMask:
+    serializedVersion: 2
+    m_Bits: 128
+  g_ObstaclesMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1541250107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,7 +1097,7 @@ GameObject:
   - component: {fileID: 1676353009}
   - component: {fileID: 1676353013}
   - component: {fileID: 1676353012}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Hunter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
