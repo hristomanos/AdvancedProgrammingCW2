@@ -55,11 +55,14 @@ public class PatrolState : AbstractFSMState
             {
                 p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
             }
-            else if (Vector3.Distance(p_NavMeshAgent.transform.position, p_NPC.PrayTranform.position) <= 2f)
+            else if (p_NPC.PrayTranform != null)
             {
-                Debug.Log("Pray detected");
-                p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
-            }
+                if (Vector3.Distance(p_NavMeshAgent.transform.position, p_NPC.PrayTranform.position) <= 2f)
+                {
+                    Debug.Log("Pray detected");
+                    p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
+                }
+            } 
         }
     }
     

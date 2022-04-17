@@ -26,6 +26,18 @@ public class Pray : MonoBehaviour
         else
             Debug.LogError("Behaviour tree: Nav mesh agent is null");
 
+        ChaseState.onKillPray += KillYourself;
+
+    }
+
+    private void OnDestroy()
+    {
+        ChaseState.onKillPray -= KillYourself;
+    }
+
+    void KillYourself()
+    {
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
