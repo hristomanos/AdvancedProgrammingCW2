@@ -11,8 +11,15 @@ public class FieldOfView : MonoBehaviour
     public LayerMask g_TargetMask;
     public LayerMask g_ObstaclesMask;
 
+    int m_HunterMask;
+    int m_PrayMask;
+
+    public static bool s_HunterOnsight = false;
+    public static bool s_PreyOnsight = false;
+
     private void Start()
     {
+        m_HunterMask = 7;
         StartCoroutine("FindTargetsWithDelay", 0.2f);
     }
 
@@ -35,21 +42,54 @@ public class FieldOfView : MonoBehaviour
         {
             Transform target = targetsInViewRadius[i].transform;
             Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+            //If it is within the field of view
             if (Vector3.Angle(transform.forward,dirToTarget) < g_ViewAngle /2 )
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 
+                //No obstacles in the way thus we can see the target
+                //Do something with it!
+                //if target is not occluded by obstacles
                 if (!Physics.Raycast(transform.position,dirToTarget,distToTarget,g_ObstaclesMask))
                 {
-                    //No obstacles in the way thus we can see the target
-                    //Do something with it!
-                    Debug.Log("Hunter detected!");
+                    if (g_TargetMask.value == (g_TargetMask | (1 << 7)))
+                    {
+                        Debug.Log("Hunter detected!");
+                        //Switch to flee state
+                        //Let is in range node know that hunter is in range
+                        //A flag to true
+                        s_HunterOnsight = true;
+                    }
+
+
+                    if (g_TargetMask.value == (g_TargetMask | ( 1 << 8)))
+                    {
+                        Debug.Log("Pray detected!");
+                        //Switch to chase state
+                        s_PreyOnsight = true;
+                    }
+
+
+
                 }
             }
         }
 
-    }
+        if (targetsInViewRadius.Length == 0 && s_HunterOnsight == true)
+        {
+            Debug.Log("Hunter not overlaping with sphere");
+            s_HunterOnsight = false;
+        }
+        
+        if(targetsInViewRadius.Length == 0 && s_PreyOnsight == true)
+        {
+            Debug.Log("Prey not overlaping with sphere");
+            s_PreyOnsight = false;
+        }
 
+
+    }
 
     public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
     {

@@ -20,7 +20,9 @@ public class IsInRangeNode : Node
     public override NodeState Execute()
     {
         m_DistanceFromTarget = Vector3.Distance(m_OriginPosition.position, m_TargetPosition.position);
-        if (m_DistanceFromTarget <= m_Range)
+        //if (m_DistanceFromTarget <= m_Range)
+
+        if(FieldOfView.s_HunterOnsight)
         {
             Debug.Log("Hunter is in range!");
             return NodeState.SUCCESS;

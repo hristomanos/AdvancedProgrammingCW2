@@ -31,6 +31,7 @@ public class WanderNode : Node
         {
             if (m_NavMeshAgent.remainingDistance <= m_NavMeshAgent.stoppingDistance)
             {
+                m_NavMeshAgent.speed = m_Speed;
                 m_NavMeshAgent.SetDestination(RandomNavMeshLocation());
                 return NodeState.SUCCESS;
             }

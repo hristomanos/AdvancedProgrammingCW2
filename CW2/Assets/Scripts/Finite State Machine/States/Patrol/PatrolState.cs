@@ -9,6 +9,8 @@ public class PatrolState : AbstractFSMState
     ConnectedWaypoint[] m_PatrolPoints;
     int m_PatrolPointIndex; //Always knows which point we are at that array
 
+    
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -44,6 +46,8 @@ public class PatrolState : AbstractFSMState
                 EnteredState = true;
             }
         }
+
+
         return EnteredState;
     }
 
@@ -57,11 +61,19 @@ public class PatrolState : AbstractFSMState
             }
             else if (p_NPC.PrayTranform != null)
             {
-                if (Vector3.Distance(p_NavMeshAgent.transform.position, p_NPC.PrayTranform.position) <= 2f)
+                //If close to pray, start chasing it.
+                //if (Vector3.Distance(p_NavMeshAgent.transform.position, p_NPC.PrayTranform.position) <= 4f)
+                //{
+                //    Debug.Log("Pray detected");
+                //    p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
+                //}
+
+                if (FieldOfView.s_PreyOnsight)
                 {
                     Debug.Log("Pray detected");
                     p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
                 }
+
             } 
         }
     }

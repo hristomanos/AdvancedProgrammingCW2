@@ -853,7 +853,7 @@ GameObject:
   - component: {fileID: 1534332148}
   - component: {fileID: 1534332154}
   m_Layer: 8
-  m_Name: Pray
+  m_Name: Prey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -984,8 +984,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b4198bc366c0b4e94e20406e656cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  g_ViewRadius: 2.6
-  g_ViewAngle: 95
+  g_ViewRadius: 5
+  g_ViewAngle: 70
   g_TargetMask:
     serializedVersion: 2
     m_Bits: 128
@@ -1097,6 +1097,7 @@ GameObject:
   - component: {fileID: 1676353009}
   - component: {fileID: 1676353013}
   - component: {fileID: 1676353012}
+  - component: {fileID: 1676353008}
   m_Layer: 7
   m_Name: Hunter
   m_TagString: Untagged
@@ -1180,6 +1181,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!114 &1676353008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676353003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71b4198bc366c0b4e94e20406e656cf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  g_ViewRadius: 5
+  g_ViewAngle: 70
+  g_TargetMask:
+    serializedVersion: 2
+    m_Bits: 256
+  g_ObstaclesMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!195 &1676353009
 NavMeshAgent:
   m_ObjectHideFlags: 0
