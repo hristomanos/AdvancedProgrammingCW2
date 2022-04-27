@@ -11,11 +11,9 @@ public class FieldOfView : MonoBehaviour
     public LayerMask g_TargetMask;
     public LayerMask g_ObstaclesMask;
 
-    int m_HunterMask;
-    int m_PrayMask;
-
-    public static bool s_HunterOnsight = false;
+    public static bool s_PredatorOnsight = false;
     public static bool s_PreyOnsight = false;
+    public static bool s_FoodOnsight = false;
 
     [SerializeField] float m_MeshResolution;
     [SerializeField] int m_EdgeResolveIterations;
@@ -30,8 +28,7 @@ public class FieldOfView : MonoBehaviour
         m_ViewMesh.name = "View Mesh";
         g_ViewMeshFilter.mesh = m_ViewMesh;
 
-        m_HunterMask = 7;
-
+        
         StartCoroutine("FindTargetsWithDelay", 0.2f);
     }
 
@@ -65,33 +62,35 @@ public class FieldOfView : MonoBehaviour
                 //if target is not occluded by obstacles
                 if (!Physics.Raycast(transform.position,dirToTarget,distToTarget,g_ObstaclesMask))
                 {
-                    if (g_TargetMask.value == (g_TargetMask | (1 << 7)))
+                    //Check if predator layer is in target mask
+                    if (target.CompareTag("Predator"))
                     {
-                        Debug.Log("Hunter detected!");
                         //Switch to flee state
-                        //Let is in range node know that hunter is in range
-                        //A flag to true
-                        s_HunterOnsight = true;
+                        //Let is in range node know that predator is in range
+                        Debug.Log("Predator detected!");
+                        s_PredatorOnsight = true;
                     }
 
-
-                    if (g_TargetMask.value == (g_TargetMask | ( 1 << 8)))
+                    //Or prey
+                    if (target.CompareTag("Prey"))
                     {
-                        Debug.Log("Pray detected!");
                         //Switch to chase state
+                        Debug.Log("Prey detected!");
                         s_PreyOnsight = true;
                     }
 
-
+                    
+                    //Or the food
+                    
 
                 }
             }
         }
 
-        if (targetsInViewRadius.Length == 0 && s_HunterOnsight == true)
+        if (targetsInViewRadius.Length == 0 && s_PredatorOnsight == true)
         {
-            Debug.Log("Hunter not overlaping with sphere");
-            s_HunterOnsight = false;
+            Debug.Log("Predator not overlaping with sphere");
+            s_PredatorOnsight = false;
         }
         
         if(targetsInViewRadius.Length == 0 && s_PreyOnsight == true)

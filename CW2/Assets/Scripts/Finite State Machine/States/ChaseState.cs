@@ -11,7 +11,7 @@ public class ChaseState : AbstractFSMState
     float m_DistanceToTarget;
 
     public delegate void KillPray();
-    public static event KillPray onKillPray;
+    public static event KillPray onKillPrey;
     
 
     public override void OnEnable()
@@ -27,7 +27,7 @@ public class ChaseState : AbstractFSMState
         if (base.EnterState())
         {
             Debug.Log("Entered Chase state");
-            m_Target = p_NPC.PrayTranform;
+            m_Target = p_NPC.PreyTranform;
 
             if (m_Target == null)
             {
@@ -48,19 +48,18 @@ public class ChaseState : AbstractFSMState
         if (EnteredState)
         {
             m_DistanceToTarget = Vector3.Distance(p_NavMeshAgent.transform.position, m_Target.position);
-            Debug.Log("Distance to pray: " + m_DistanceToTarget);
+            Debug.Log("Distance to prey: " + m_DistanceToTarget);
             if (m_DistanceToTarget <= 1.2f)
             {
-                Debug.Log("Pray was caught!");
-                //Destroy pray game object
-
-                if (onKillPray != null)
+                Debug.Log("Prey was caught!");
+                //Destroy prey game object
+                if (onKillPrey != null)
                 {
-                    onKillPray();
+                    onKillPrey();
                 }
                 else
                 {
-                    Debug.Log("onkillPray is null");
+                    Debug.Log("onkillPrey is null");
                 }
 
                 p_FiniteStateMachine.EnterState(FSMStateType.IDLE);

@@ -22,7 +22,8 @@ public class IsInRangeNode : Node
         m_DistanceFromTarget = Vector3.Distance(m_OriginPosition.position, m_TargetPosition.position);
         //if (m_DistanceFromTarget <= m_Range)
 
-        if(FieldOfView.s_HunterOnsight)
+        //Predator is on sight
+        if(FieldOfView.s_PredatorOnsight)
         {
             Debug.Log("Hunter is in range!");
             return NodeState.SUCCESS;

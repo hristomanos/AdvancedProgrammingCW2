@@ -17,7 +17,7 @@ public class NPC : MonoBehaviour
     NavMeshAgent m_NavMeshAgent;
     FiniteStateMachine m_FiniteStateMachine;
     [SerializeField] Transform m_PrayTransform;
-    public Transform PrayTranform { get { return m_PrayTransform; } }
+    public Transform PreyTranform { get { return m_PrayTransform; } }
 
     // Start is called before the first frame update
     void Awake()

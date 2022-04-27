@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+
+
 [RequireComponent(typeof(NavMeshAgent))]
-public class Pray : MonoBehaviour
+public class Prey : MonoBehaviour
 {
 
-    [SerializeField] Transform m_Hunter;
+    [SerializeField] Transform m_Predator;
     [SerializeField] float m_Range = 2f;
+    
 
     NavMeshAgent m_NavMeshAgent;
 
     SelectorNode m_TopNode;
 
-    // Start is called before the first frame update
+    float m_Hunger;    
+    
     void Start()
     {
+        m_Hunger = 0;
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
 
         if (m_NavMeshAgent != null)
@@ -26,13 +32,13 @@ public class Pray : MonoBehaviour
         else
             Debug.LogError("Behaviour tree: Nav mesh agent is null");
 
-        ChaseState.onKillPray += KillYourself;
+        ChaseState.onKillPrey += KillYourself;
 
     }
 
     private void OnDestroy()
     {
-        ChaseState.onKillPray -= KillYourself;
+        ChaseState.onKillPrey -= KillYourself;
     }
 
     void KillYourself()
@@ -40,7 +46,7 @@ public class Pray : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         m_TopNode.Execute();
@@ -52,12 +58,23 @@ public class Pray : MonoBehaviour
 
     void ConstructBehaviorTree()
     {
-        FleeNode fleeNode = new FleeNode(m_NavMeshAgent, m_Hunter);
-        IsInRangeNode inRangeNode = new IsInRangeNode(transform,m_Hunter, m_Range);
+        FleeNode fleeNode = new FleeNode(m_NavMeshAgent, m_Predator);
+        IsInRangeNode inRangeNode = new IsInRangeNode(transform,m_Predator, m_Range);
         WanderNode wanderNode = new WanderNode(m_NavMeshAgent, transform);
 
+        IsHungryNode isHungryNode = new IsHungryNode();
+        GoToFoodNode goToFoodNode = new GoToFoodNode(m_NavMeshAgent);
+
         SequenceNode fleeSequence = new SequenceNode(new List<Node> {inRangeNode, fleeNode });
-        m_TopNode = new SelectorNode(new List<Node> { fleeSequence, wanderNode });
+        SequenceNode hungerSequence = new SequenceNode(new List<Node> {isHungryNode,  goToFoodNode});
+        m_TopNode = new SelectorNode(new List<Node> { hungerSequence });
     }
   
+
+    void IncreaseHunger()
+    {
+        m_Hunger += Time.deltaTime;
+
+
+    }
 }

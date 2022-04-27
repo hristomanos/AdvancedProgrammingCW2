@@ -59,7 +59,7 @@ public class PatrolState : AbstractFSMState
             {
                 p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
             }
-            else if (p_NPC.PrayTranform != null)
+            else if (p_NPC.PreyTranform != null)
             {
                 //If close to pray, start chasing it.
                 //if (Vector3.Distance(p_NavMeshAgent.transform.position, p_NPC.PrayTranform.position) <= 4f)

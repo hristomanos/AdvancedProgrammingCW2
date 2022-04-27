@@ -25,7 +25,7 @@ public class IdleState : AbstractFSMState
 
         if (EnteredState)
         {
-            Debug.Log("Entered Idle state");
+           // Debug.Log("Entered Idle state");
             m_TotalDuration = 0;
         }
 
@@ -53,7 +53,7 @@ public class IdleState : AbstractFSMState
     {
         base.ExitState();
 
-        Debug.Log("Exiting Idle state");
+       // Debug.Log("Exiting Idle state");
 
         return true;
     }
