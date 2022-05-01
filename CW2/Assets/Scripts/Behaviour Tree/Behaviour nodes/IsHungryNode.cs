@@ -5,24 +5,24 @@ using UnityEngine;
 public class IsHungryNode : Node
 {   
     float m_Hunger;
+    Prey m_Prey;
 
-    public IsHungryNode()
+    public IsHungryNode(Prey prey)
     {
-        m_Hunger = 0;
+        m_Prey = prey;
     }
 
     public override NodeState Execute()
     {
-        Debug.Log("Hunger: " + m_Hunger);
-        if (m_Hunger >= 20)
+        if (m_Prey.Hunger >= 5)
         {
+            m_Prey.IsHungry = true;
             Debug.Log("Is Hungry");
             return NodeState.SUCCESS;
         }
         else
         {
-           
-            m_Hunger += Time.deltaTime;
+            m_Prey.Hunger += Time.deltaTime;
             return NodeState.FAILURE;
         }
     }

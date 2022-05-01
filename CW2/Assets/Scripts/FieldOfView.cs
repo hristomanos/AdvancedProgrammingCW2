@@ -53,7 +53,7 @@ public class FieldOfView : MonoBehaviour
             Vector3 dirToTarget = (target.position - transform.position).normalized;
 
             //If it is within the field of view
-            if (Vector3.Angle(transform.forward,dirToTarget) < g_ViewAngle /2 )
+            if (Vector3.Angle(transform.forward,dirToTarget) < g_ViewAngle / 2 )
             {
                 float distToTarget = Vector3.Distance(transform.position, target.position);
 

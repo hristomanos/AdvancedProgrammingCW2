@@ -19,8 +19,7 @@ public class IsInRangeNode : Node
 
     public override NodeState Execute()
     {
-        m_DistanceFromTarget = Vector3.Distance(m_OriginPosition.position, m_TargetPosition.position);
-        //if (m_DistanceFromTarget <= m_Range)
+        //m_DistanceFromTarget = Vector3.Distance(m_OriginPosition.position, m_TargetPosition.position);
 
         //Predator is on sight
         if(FieldOfView.s_PredatorOnsight)
