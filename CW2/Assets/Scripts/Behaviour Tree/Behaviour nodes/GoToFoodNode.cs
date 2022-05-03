@@ -12,12 +12,16 @@ public class GoToFoodNode : Node
     NavMeshAgent m_NavMeshAgent;
     
     Transform m_Target;
-    
+
+    String m_Tag;
+
+   
 
     //Constructor
-    public GoToFoodNode(NavMeshAgent navMeshAgent)
+    public GoToFoodNode(NavMeshAgent navMeshAgent, String tag)
     {
-        m_NavMeshAgent = navMeshAgent;    
+        m_NavMeshAgent = navMeshAgent;
+        m_Tag = tag;
     }
 
 
@@ -48,42 +52,53 @@ public class GoToFoodNode : Node
         }
 
 
-        float minDistance = Vector3.Distance(m_NavMeshAgent.transform.position, targetsInViewRadius[0].transform.position);
+        float minDistance = float.MaxValue;
         int   minIndex = 0;
         float distToTarget = 0.0f;
 
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
-            if (targetsInViewRadius[i].CompareTag("Food"))
+            if (targetsInViewRadius[i].CompareTag(m_Tag))
             {
-
                 distToTarget = Vector3.Distance(m_NavMeshAgent.transform.position, targetsInViewRadius[i].transform.position);
 
                 if (distToTarget <= minDistance)
                 {
                     minDistance = distToTarget;
                     minIndex = i;
+                    Debug.Log(m_Tag + " Found!");
                 }
-
             }
         }
 
-        return targetsInViewRadius[minIndex].transform;
+        if (targetsInViewRadius[minIndex].CompareTag(m_Tag))
+        {
+            return targetsInViewRadius[minIndex].transform;
+        }
+        else
+        {
+            Debug.LogError(m_Tag + " not found!");
+            return targetsInViewRadius[minIndex].transform;
+        }
+
     }
 
     //Look for food
     void FindFood()
     {
         //Check if you can see anything
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(m_NavMeshAgent.transform.position, 10);
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(m_NavMeshAgent.transform.position, 50);
+       
 
         //Find closest one
         m_Target = FindClosestDistance(targetsInViewRadius);
 
         //Tell me which food you targeted
         Debug.Log(m_Target.transform.position);
-        Debug.Log("Food detected!");
+        Debug.Log(m_Tag + " detected at " + m_Target.transform.position);
     }
+
+  
 
     void GoToFood()
     {

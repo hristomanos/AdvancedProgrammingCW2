@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Food : MonoBehaviour
-{
-    
-    private void OnTriggerEnter(Collider other)
+{ 
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Prey"))
         {
@@ -21,10 +20,11 @@ public class Food : MonoBehaviour
                     prey.Hunger = 0;
                     prey.IsHungry = false;
                 }
-                
+
                 Debug.Log("After: " + prey.Hunger);
                 Destroy(gameObject);
             }
         }
     }
+
 }
