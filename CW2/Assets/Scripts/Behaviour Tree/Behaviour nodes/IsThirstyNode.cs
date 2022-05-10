@@ -17,7 +17,7 @@ public class IsThirstyNode : Node
         if (m_Prey.Thirst >= 10)
         {
             m_Prey.IsThirsty = true;
-            Debug.Log("Is Thirsty");
+           // Debug.Log("Is Thirsty");
             return NodeState.SUCCESS;
         }
         else

@@ -11,9 +11,8 @@ public class FieldOfView : MonoBehaviour
     public LayerMask g_TargetMask;
     public LayerMask g_ObstaclesMask;
 
-    public static bool s_PredatorOnsight = false;
     public static bool s_PreyOnsight = false;
-    public static bool s_FoodOnsight = false;
+    public static Prey s_PreyTarget;
 
     [SerializeField] float m_MeshResolution;
     [SerializeField] int m_EdgeResolveIterations;
@@ -59,39 +58,60 @@ public class FieldOfView : MonoBehaviour
 
                 //No obstacles in the way thus we can see the target
                 //Do something with it!
+
                 //if target is not occluded by obstacles
                 if (!Physics.Raycast(transform.position,dirToTarget,distToTarget,g_ObstaclesMask))
                 {
-                    //Check if predator layer is in target mask
+                    //Is the target a predator?
                     if (target.CompareTag("Predator"))
                     {
                         //Switch to flee state
                         //Let is in range node know that predator is in range
                         Debug.Log("Predator detected!");
-                        s_PredatorOnsight = true;
+
+                        Prey prey = GetComponent<Prey>();
+                        //Set target from collider
+                        prey.SetPredator(target);
+
                     }
 
-                    //Or prey
-                    if (target.CompareTag("Prey"))
+                    //Or prey?
+                    if (target.CompareTag("Prey") && target.transform != transform)
                     {
-                        //Switch to chase state
-                        Debug.Log("Prey detected!");
-                        s_PreyOnsight = true;
+                       // Debug.Log("Prey detected!");
+                        
+                        if (CompareTag("Predator"))
+                        {
+                            //Switch to chase state
+                            s_PreyOnsight = true;
+                            
+                            //Set target from collider
+                            NPC npc = GetComponent<NPC>();
+                            npc.SetTarget(target);
+                        }
+                        else
+                        {
+                            Prey prey = GetComponent<Prey>();
+                            Gender targetGender = target.GetComponent<Prey>().Gender;
+
+                            if (targetGender != prey.Gender)
+                            {
+                                //Set target from collider
+                                prey.SetMate(target);
+                            }
+                           
+                           
+                        }
                     }
-
-                    
-                    //Or the food
-                    
-
                 }
             }
         }
 
-        if (targetsInViewRadius.Length == 0 && s_PredatorOnsight == true)
-        {
-            Debug.Log("Predator not overlaping with sphere");
-            s_PredatorOnsight = false;
-        }
+        //if (targetsInViewRadius.Length == 0 && s_PredatorOnsight == true)
+        //{
+        //    Debug.Log("Predator not overlaping with sphere");
+        //    s_PredatorOnsight = false;
+        //}
         
         if(targetsInViewRadius.Length == 0 && s_PreyOnsight == true)
         {

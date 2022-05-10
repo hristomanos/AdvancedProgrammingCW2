@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 3508377641220397698}
   m_Layer: 7
   m_Name: Predator
-  m_TagString: Untagged
+  m_TagString: Predator
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -224,7 +224,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  m_PrayTransform: {fileID: 0}
 --- !u!114 &3508377641220397702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,7 +231,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3508377641220397721}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c77c8322d7fe14e89d3ffe1aecd5c1, type: 3}
   m_Name: 
@@ -253,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71b4198bc366c0b4e94e20406e656cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  g_ViewRadius: 5
+  g_ViewRadius: 7
   g_ViewAngle: 70
   g_TargetMask:
     serializedVersion: 2

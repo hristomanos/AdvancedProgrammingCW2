@@ -13,15 +13,16 @@ public class GoToFoodNode : Node
     
     Transform m_Target;
 
-    String m_Tag;
+    LayerMask m_FoodMask;
 
-   
+    String m_Tag;
 
     //Constructor
     public GoToFoodNode(NavMeshAgent navMeshAgent, String tag)
     {
         m_NavMeshAgent = navMeshAgent;
         m_Tag = tag;
+        m_FoodMask = LayerMask.NameToLayer("Food");
     }
 
 
@@ -46,11 +47,6 @@ public class GoToFoodNode : Node
     //Pick closest piece of food.
     Transform FindClosestDistance(Collider[] targetsInViewRadius)
     {
-        if (targetsInViewRadius.Length <= 0)
-        {
-            Debug.LogError("No food");
-        }
-
 
         float minDistance = float.MaxValue;
         int   minIndex = 0;
@@ -66,7 +62,7 @@ public class GoToFoodNode : Node
                 {
                     minDistance = distToTarget;
                     minIndex = i;
-                    Debug.Log(m_Tag + " Found!");
+                   // Debug.Log(m_Tag + " Found!");
                 }
             }
         }
@@ -77,7 +73,7 @@ public class GoToFoodNode : Node
         }
         else
         {
-            Debug.LogError(m_Tag + " not found!");
+           // Debug.LogError(m_Tag + " not found!");
             return targetsInViewRadius[minIndex].transform;
         }
 
@@ -94,8 +90,8 @@ public class GoToFoodNode : Node
         m_Target = FindClosestDistance(targetsInViewRadius);
 
         //Tell me which food you targeted
-        Debug.Log(m_Target.transform.position);
-        Debug.Log(m_Tag + " detected at " + m_Target.transform.position);
+       // Debug.Log(m_Target.transform.position);
+       // Debug.Log(m_Tag + " detected at " + m_Target.transform.position);
     }
 
   
@@ -103,6 +99,7 @@ public class GoToFoodNode : Node
     void GoToFood()
     {
         FindFood();
+        m_NavMeshAgent.GetComponent<Prey>().CurrentBehaviour = "Searching for " + m_Tag;
         m_NavMeshAgent.speed = 3f;
         m_NavMeshAgent.SetDestination(m_Target.position);
     }

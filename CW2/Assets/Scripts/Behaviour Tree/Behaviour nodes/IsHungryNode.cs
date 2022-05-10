@@ -14,10 +14,10 @@ public class IsHungryNode : Node
 
     public override NodeState Execute()
     {
-        if (m_Prey.Hunger >= 5)
+        if (m_Prey.Hunger >= 25)
         {
             m_Prey.IsHungry = true;
-            Debug.Log("Is Hungry");
+            //Debug.Log("Is Hungry");
             return NodeState.SUCCESS;
         }
         else

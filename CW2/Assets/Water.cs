@@ -14,7 +14,7 @@ public class Water : MonoBehaviour
             if (prey.IsThirsty)
             {
 
-                Debug.Log("Thirst || Before: " + prey.Thirst);
+               // Debug.Log("Thirst || Before: " + prey.Thirst);
                 prey.Thirst -= 100;
 
                 if (prey.Thirst <= 0)
@@ -23,7 +23,7 @@ public class Water : MonoBehaviour
                     prey.IsThirsty = false;
                 }
 
-                Debug.Log("Thirst || After: " + prey.Thirst);
+              //  Debug.Log("Thirst || After: " + prey.Thirst);
 
             }
         }

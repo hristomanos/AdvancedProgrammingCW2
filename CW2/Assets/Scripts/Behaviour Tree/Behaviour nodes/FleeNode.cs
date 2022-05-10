@@ -6,12 +6,12 @@ using UnityEngine.AI;
 public class FleeNode : Node
 {
     NavMeshAgent m_NavMeshAgent;
-    Transform m_FleeingFromPosition;
-
-    public FleeNode(NavMeshAgent navMeshAgent, Transform hunterPosition)
+    //Transform m_FleeingFromPosition;
+    Prey m_prey;
+    public FleeNode(NavMeshAgent navMeshAgent, Prey prey)
     {
         m_NavMeshAgent = navMeshAgent;
-        m_FleeingFromPosition = hunterPosition;
+        m_prey = prey;
     }
 
     public override NodeState Execute()
@@ -30,7 +30,8 @@ public class FleeNode : Node
 
     void Flee()
     {
-        Vector3 directionToTarget = m_NavMeshAgent.transform.position - m_FleeingFromPosition.transform.position;
+        m_prey.CurrentBehaviour = "Fleeing";
+        Vector3 directionToTarget = m_NavMeshAgent.transform.position - m_prey.Predator.position;
         m_NavMeshAgent.speed = 5f;
         m_NavMeshAgent.SetDestination(m_NavMeshAgent.transform.position + directionToTarget);
     }

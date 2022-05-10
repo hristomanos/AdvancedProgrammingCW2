@@ -16,14 +16,21 @@ public class NPC : MonoBehaviour
 
     NavMeshAgent m_NavMeshAgent;
     FiniteStateMachine m_FiniteStateMachine;
-    [SerializeField] Transform m_PrayTransform;
-    public Transform PreyTranform { get { return m_PrayTransform; } }
+
+    //Target
+    Transform m_PreyTransform;
+    public Transform PreyTranform { get { return m_PreyTransform; } }
+
+    //Target was caught
+    bool m_PreyWasCought;
+    public bool PreyWasCought { get { return m_PreyWasCought; } set { m_PreyWasCought = value; } }
 
     // Start is called before the first frame update
     void Awake()
     {
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
         m_FiniteStateMachine = GetComponent<FiniteStateMachine>();
+        m_PreyWasCought = false;
     }
 
     // Update is called once per frame
@@ -31,4 +38,19 @@ public class NPC : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Prey"))
+        {
+            m_PreyWasCought = true;
+            Debug.Log("PreyWasCought: " + m_PreyWasCought);
+        }
+    }
+
+    public void SetTarget(Transform target)
+    {
+        m_PreyTransform = target.transform;
+    }
+
 }

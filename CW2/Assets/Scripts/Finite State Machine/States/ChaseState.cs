@@ -10,10 +10,6 @@ public class ChaseState : AbstractFSMState
     Transform m_Target;
     float m_DistanceToTarget;
 
-    public delegate void KillPray();
-    public static event KillPray onKillPrey;
-    
-
     public override void OnEnable()
     {
         base.OnEnable();
@@ -28,10 +24,10 @@ public class ChaseState : AbstractFSMState
         {
             Debug.Log("Entered Chase state");
             m_Target = p_NPC.PreyTranform;
-
+            
             if (m_Target == null)
             {
-                Debug.LogError("Target was not set! in ChaseState");
+                Debug.LogError("Target was not set in ChaseState");
             }
             else
             {
@@ -47,25 +43,17 @@ public class ChaseState : AbstractFSMState
     {
         if (EnteredState)
         {
-            m_DistanceToTarget = Vector3.Distance(p_NavMeshAgent.transform.position, m_Target.position);
-            Debug.Log("Distance to prey: " + m_DistanceToTarget);
-            if (m_DistanceToTarget <= 1.2f)
-            {
-                Debug.Log("Prey was caught!");
-                //Destroy prey game object
-                if (onKillPrey != null)
+               // m_DistanceToTarget = Vector3.Distance(p_NavMeshAgent.transform.position, m_Target.position);
+               // Debug.Log("Distance to prey: " + m_DistanceToTarget);
+
+                if (p_NPC.PreyWasCought)
                 {
-                    onKillPrey();
+                    Debug.Log("PREDATOR: switched to idle");
+                    p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
                 }
                 else
-                {
-                    Debug.Log("onkillPrey is null");
-                }
-
-                p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
-            }
-            else
-                p_NavMeshAgent.SetDestination(m_Target.position);
+                    p_NavMeshAgent.SetDestination(m_Target.position);
+            
         }
     }
 
@@ -73,7 +61,7 @@ public class ChaseState : AbstractFSMState
     public override bool ExitState()
     {
         base.ExitState();
-
+        p_NPC.PreyWasCought = false;
         Debug.Log("Exiting Chase state");
 
         return true;

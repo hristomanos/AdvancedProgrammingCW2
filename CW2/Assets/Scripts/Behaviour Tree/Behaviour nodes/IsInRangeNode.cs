@@ -4,28 +4,35 @@ using UnityEngine;
 
 public class IsInRangeNode : Node
 {
-    Transform m_OriginPosition;
-    Transform m_TargetPosition;
+    Prey m_Prey;
+
     float m_Range;
 
     float m_DistanceFromTarget;
 
-    public IsInRangeNode(Transform originPosition, Transform targetPosition, float range)
+    public IsInRangeNode(Prey prey, float range)
     {
-        m_OriginPosition = originPosition;
-        m_TargetPosition = targetPosition;
+        m_Prey = prey;
         m_Range = range;
     }
 
     public override NodeState Execute()
     {
-        //m_DistanceFromTarget = Vector3.Distance(m_OriginPosition.position, m_TargetPosition.position);
-
-        //Predator is on sight
-        if(FieldOfView.s_PredatorOnsight)
+        if (m_Prey.Predator != null)
         {
-            Debug.Log("Hunter is in range!");
-            return NodeState.SUCCESS;
+
+            m_DistanceFromTarget = Vector3.Distance(m_Prey.transform.position, m_Prey.Predator.position);
+
+            //Predator is on sight
+            if(m_DistanceFromTarget <= m_Range)
+            {
+                Debug.Log("Hunter is in range!");
+                return NodeState.SUCCESS;
+            }
+            else
+            {
+                return NodeState.FAILURE;
+            }
         }
         else
         {

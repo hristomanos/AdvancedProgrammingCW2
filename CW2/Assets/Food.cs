@@ -12,7 +12,7 @@ public class Food : MonoBehaviour
             if (prey.IsHungry)
             {
 
-                Debug.Log("Before: " + prey.Hunger);
+               // Debug.Log("Before: " + prey.Hunger);
                 prey.Hunger -= 100;
 
                 if (prey.Hunger <= 0)
@@ -21,7 +21,7 @@ public class Food : MonoBehaviour
                     prey.IsHungry = false;
                 }
 
-                Debug.Log("After: " + prey.Hunger);
+               // Debug.Log("After: " + prey.Hunger);
                 Destroy(gameObject);
             }
         }
