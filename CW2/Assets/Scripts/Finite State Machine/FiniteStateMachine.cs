@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+//Class taken from tutorial by a Youtube channel called table flip games
+//Link: https://www.youtube.com/watch?v=21yDDUKCQOI&t=2s&ab_channel=TableFlipGames
+
 public class FiniteStateMachine : MonoBehaviour
 {
     

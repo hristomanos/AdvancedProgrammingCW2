@@ -68,9 +68,8 @@ public class PatrolState : AbstractFSMState
                 //    p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
                 //}
 
-                if (FieldOfView.s_PreyOnsight)
+                if (p_NPC.PreyTranform != null)
                 {
-                    Debug.Log("Pray detected");
                     p_FiniteStateMachine.EnterState(FSMStateType.CHASE);
                 }
 

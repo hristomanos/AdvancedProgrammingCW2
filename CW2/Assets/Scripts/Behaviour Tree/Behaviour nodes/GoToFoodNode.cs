@@ -11,18 +11,14 @@ public class GoToFoodNode : Node
 {
     NavMeshAgent m_NavMeshAgent;
     
-    Transform m_Target;
+    Transform    m_Target;
 
-    LayerMask m_FoodMask;
+    String       m_Tag;
 
-    String m_Tag;
-
-    //Constructor
     public GoToFoodNode(NavMeshAgent navMeshAgent, String tag)
     {
         m_NavMeshAgent = navMeshAgent;
         m_Tag = tag;
-        m_FoodMask = LayerMask.NameToLayer("Food");
     }
 
 
@@ -33,7 +29,7 @@ public class GoToFoodNode : Node
         if (m_NavMeshAgent != null)
         {
             //Yes, then seek food to eat
-            GoToFood();
+            GoToTarget();
             return NodeState.SUCCESS;
         }
         else
@@ -44,7 +40,7 @@ public class GoToFoodNode : Node
         }
     }
     
-    //Pick closest piece of food.
+    //Find minumum distance to item.
     Transform FindClosestDistance(Collider[] targetsInViewRadius)
     {
 
@@ -52,6 +48,7 @@ public class GoToFoodNode : Node
         int   minIndex = 0;
         float distToTarget = 0.0f;
 
+        //Find the closest distance to the target
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             if (targetsInViewRadius[i].CompareTag(m_Tag))
@@ -62,44 +59,44 @@ public class GoToFoodNode : Node
                 {
                     minDistance = distToTarget;
                     minIndex = i;
-                   // Debug.Log(m_Tag + " Found!");
+                   
                 }
             }
         }
 
+        //Check if the object found is of desired type
         if (targetsInViewRadius[minIndex].CompareTag(m_Tag))
         {
             return targetsInViewRadius[minIndex].transform;
         }
         else
         {
-           // Debug.LogError(m_Tag + " not found!");
+           //Else return the first object you found
             return targetsInViewRadius[minIndex].transform;
         }
 
     }
 
-    //Look for food
-    void FindFood()
+    void FindTarget()
     {
         //Check if you can see anything
         Collider[] targetsInViewRadius = Physics.OverlapSphere(m_NavMeshAgent.transform.position, 50);
        
-
-        //Find closest one
+        //Find closest target
         m_Target = FindClosestDistance(targetsInViewRadius);
-
-        //Tell me which food you targeted
-       // Debug.Log(m_Target.transform.position);
-       // Debug.Log(m_Tag + " detected at " + m_Target.transform.position);
     }
 
   
 
-    void GoToFood()
+    void GoToTarget()
     {
-        FindFood();
+        //Search for item
+        FindTarget();
+
+        //Update UI
         m_NavMeshAgent.GetComponent<Prey>().CurrentBehaviour = "Searching for " + m_Tag;
+
+        //Set agent destination
         m_NavMeshAgent.speed = 3f;
         m_NavMeshAgent.SetDestination(m_Target.position);
     }

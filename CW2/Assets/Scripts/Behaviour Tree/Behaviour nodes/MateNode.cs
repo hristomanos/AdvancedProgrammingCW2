@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class MateNode : Node
 {
     NavMeshAgent m_NavMeshAgent;
-    Prey m_Prey;
+    Prey         m_Prey;
 
     public MateNode(NavMeshAgent navMeshAgent, Prey prey)
     {
@@ -24,7 +24,6 @@ public class MateNode : Node
                 {
                     if (!m_NavMeshAgent.hasPath || m_NavMeshAgent.velocity.sqrMagnitude == 0f)
                     {
-                       // Debug.Log("Mating");
                         m_Prey.UrgeToReproduce = 0;
 
                         //If female then spawn prey animals
@@ -48,7 +47,7 @@ public class MateNode : Node
             }
             else
             {
-                Debug.Log("Mating: path is pending!");
+               // Debug.Log("Mating: path is pending!");
                 return NodeState.FAILURE;
             }
         }
@@ -63,6 +62,7 @@ public class MateNode : Node
 
     void SpawnAnimal()
     {
+        //Instantiate random prefab next to the parents.
         AnimalSpawner.Instance.SpawnAnimal(m_Prey.transform.position + m_Prey.GetComponent<CapsuleCollider>().bounds.size);
     }
    

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//This script is responsible for moving the npc by calling the nav mesh agent depending on the finite state machine
 
-//This script is responsible for moving the npc by calling the nav mesh agent depending on the fsm
-
-//Emmbedd a rule that says whenever I create an instance of this, there has to be a nav mesh agent and a FSM attached to the same game object.
+//Embed a rule that says whenever I create an instance of this, there has to be a nav mesh agent and a FSM attached to the same game object.
 //If that is not the case, it will add them as components.
 [RequireComponent(typeof(NavMeshAgent),typeof(FiniteStateMachine))]
 public class NPC : MonoBehaviour
@@ -31,12 +30,12 @@ public class NPC : MonoBehaviour
         m_NavMeshAgent = GetComponent<NavMeshAgent>();
         m_FiniteStateMachine = GetComponent<FiniteStateMachine>();
         m_PreyWasCought = false;
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (m_PatrolPoints != null)
+        {
+            FillPatrolPoints();
+        }
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -44,7 +43,18 @@ public class NPC : MonoBehaviour
         if (collision.gameObject.CompareTag("Prey"))
         {
             m_PreyWasCought = true;
-            Debug.Log("PreyWasCought: " + m_PreyWasCought);
+        }
+    }
+
+    void FillPatrolPoints()
+    {
+        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+        
+        m_PatrolPoints = new ConnectedWaypoint[waypoints.Length];
+
+        for (int i = 0; i < m_PatrolPoints.Length; i++)
+        {
+            m_PatrolPoints[i] = waypoints[i].GetComponent<ConnectedWaypoint>();
         }
     }
 

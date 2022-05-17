@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class AnimalSpawner : MonoBehaviour
 {
+    //Singleton
     public static AnimalSpawner Instance { get; private set; }
 
     [SerializeField] List<GameObject> preyAnimalPrefabs;
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (Instance == null)
@@ -21,6 +23,7 @@ public class AnimalSpawner : MonoBehaviour
 
     }
 
+    //Spawn random animal
     public void SpawnAnimal(Vector3 position)
     {
         int randomAnimal = Random.Range(0, preyAnimalPrefabs.Count);

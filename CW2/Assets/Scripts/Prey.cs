@@ -16,8 +16,8 @@ public class Prey : MonoBehaviour
 {
     //Attributes
     [Header("Attributes")]
-    [SerializeField] int m_Age;
-    [SerializeField] int m_Speed;
+   // [SerializeField] int m_Age;
+   // [SerializeField] int m_Speed;
 
     [SerializeField] Gender m_Gender;
 
@@ -76,8 +76,8 @@ public class Prey : MonoBehaviour
 
     void Start()
     {
-        m_Age = 1;
-        m_Speed = 1;
+        //m_Age = 1;
+       // m_Speed = 1;
 
         m_Hunger = 0;
         m_IsHungry = false;
@@ -129,8 +129,6 @@ public class Prey : MonoBehaviour
         MateNode        mateNode            = new MateNode(m_NavMeshAgent, this);
 
         WanderNode      wanderNode          = new WanderNode(m_NavMeshAgent, transform);
-        
-        SelectorNode    searchForMateSelector = new SelectorNode(new List<Node> { mateNode, wanderNode });
 
         SequenceNode    fleeSequence        = new SequenceNode(new List<Node> {inRangeNode     ,   fleeNode                    });
         SequenceNode    thirstSequence      = new SequenceNode(new List<Node> {isThirsty       ,   goToWaterNode               });

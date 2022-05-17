@@ -65,20 +65,15 @@ public class FieldOfView : MonoBehaviour
                     //Is the target a predator?
                     if (target.CompareTag("Predator"))
                     {
-                        //Switch to flee state
-                        //Let is in range node know that predator is in range
-                        Debug.Log("Predator detected!");
-
-                        Prey prey = GetComponent<Prey>();
                         //Set target from collider
+                        Prey prey = GetComponent<Prey>();
                         prey.SetPredator(target);
-
                     }
 
                     //Or prey?
                     if (target.CompareTag("Prey") && target.transform != transform)
                     {
-                       // Debug.Log("Prey detected!");
+                       
                         
                         if (CompareTag("Predator"))
                         {
@@ -107,17 +102,7 @@ public class FieldOfView : MonoBehaviour
             }
         }
 
-        //if (targetsInViewRadius.Length == 0 && s_PredatorOnsight == true)
-        //{
-        //    Debug.Log("Predator not overlaping with sphere");
-        //    s_PredatorOnsight = false;
-        //}
-        
-        if(targetsInViewRadius.Length == 0 && s_PreyOnsight == true)
-        {
-            Debug.Log("Prey not overlaping with sphere");
-            s_PreyOnsight = false;
-        }
+      
     }
 
     private void Update()

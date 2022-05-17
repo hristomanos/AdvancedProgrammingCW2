@@ -50,7 +50,6 @@ public class GoToMateNode : Node
     {
         m_Prey.CurrentBehaviour = "Going to mate";
         m_NavMeshAgent.speed = 3f;
-       // Debug.Log("Found mate at: " + m_Prey.Mate.position);
         m_NavMeshAgent.SetDestination(m_Prey.Mate.position);
     }
 

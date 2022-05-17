@@ -22,7 +22,7 @@ public class ChaseState : AbstractFSMState
 
         if (base.EnterState())
         {
-            Debug.Log("Entered Chase state");
+           // Debug.Log("Entered Chase state");
             m_Target = p_NPC.PreyTranform;
             
             if (m_Target == null)
@@ -48,7 +48,7 @@ public class ChaseState : AbstractFSMState
 
                 if (p_NPC.PreyWasCought)
                 {
-                    Debug.Log("PREDATOR: switched to idle");
+                    //Debug.Log("PREDATOR: switched to idle");
                     p_FiniteStateMachine.EnterState(FSMStateType.IDLE);
                 }
                 else
@@ -62,7 +62,7 @@ public class ChaseState : AbstractFSMState
     {
         base.ExitState();
         p_NPC.PreyWasCought = false;
-        Debug.Log("Exiting Chase state");
+       // Debug.Log("Exiting Chase state");
 
         return true;
     }

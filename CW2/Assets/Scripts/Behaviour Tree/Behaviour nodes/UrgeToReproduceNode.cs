@@ -16,7 +16,6 @@ public class UrgeToReproduce : Node
         if (m_Prey.UrgeToReproduce >= 20)
         {
             m_Prey.HasUrgeToReproduce = true;
-            Debug.Log("Has urge To reproduce");
             return NodeState.SUCCESS;
         }
         else

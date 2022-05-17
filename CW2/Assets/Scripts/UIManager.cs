@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -10,8 +11,8 @@ public class UIManager : MonoBehaviour
     RaycastHit raycastHit;
     [SerializeField] LayerMask m_MouseLayerMask;
 
-    [SerializeField] GameObject m_PreyPrefab;
-    [SerializeField] GameObject m_Predator;
+    [SerializeField] GameObject m_PreyMalePrefab;
+    [SerializeField] GameObject m_PreyFemalePrefab;
 
     [SerializeField] GameObject m_Panel;
 
@@ -20,32 +21,35 @@ public class UIManager : MonoBehaviour
     [SerializeField] Slider m_UrgeToReproduceSlider;
 
     [SerializeField] TextMeshProUGUI m_BehaviourText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] GameObject m_StartButton;
+    [SerializeField] GameObject m_WelcomePanel;
+    
+    bool m_SimStarted = false;
 
     // Update is called once per frame
     void Update()
     {
-        //TakeMousePosOnScreen();
+        TakeMousePosOnScreen();
         SelectObjects();
     }
 
     public void StartSimButton()
     {
         EnableAnimalScriptsInScene();
+
+        m_StartButton.SetActive(false);
+        m_WelcomePanel.SetActive(false);
     }
 
+    public void RestartButton()
+    {
+        SceneManager.LoadScene(0);
+    }
 
     void EnableAnimalScriptsInScene()
     {
         GameObject[] predators =  GameObject.FindGameObjectsWithTag("Predator");
-        GameObject[] preys     = GameObject.FindGameObjectsWithTag("Prey");
-
-        //yield return new WaitForSeconds();
+        GameObject[] preys     =  GameObject.FindGameObjectsWithTag("Prey");
 
         foreach (GameObject predator in predators)
         {
@@ -57,6 +61,7 @@ public class UIManager : MonoBehaviour
             prey.GetComponent<Prey>().enabled = true;
         }
 
+        m_SimStarted = true;
     }
 
 
@@ -64,7 +69,7 @@ public class UIManager : MonoBehaviour
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !m_SimStarted)
         {
             if (Physics.Raycast(ray, out raycastHit, 1000, m_MouseLayerMask))
             {
@@ -72,17 +77,17 @@ public class UIManager : MonoBehaviour
                 //Debug.Log("HIT! || " + raycastHit.point);
                 //Debug.Log(raycastHit.collider.tag);
 
-                Instantiate(m_PreyPrefab,raycastHit.point, Quaternion.identity);
+                Instantiate(m_PreyMalePrefab,raycastHit.point, Quaternion.identity);
 
             }
         }
-        //else if (Input.GetMouseButtonDown(1))
-        //{
-        //    if (Physics.Raycast(ray, out raycastHit, 1000, m_MouseLayerMask))
-        //    {
-        //        Instantiate(m_Predator, raycastHit.point, Quaternion.identity);
-        //    }
-        //}
+        else if (Input.GetMouseButtonDown(1) && !m_SimStarted)
+        {
+            if (Physics.Raycast(ray, out raycastHit, 1000, m_MouseLayerMask))
+            {
+                Instantiate(m_PreyFemalePrefab, raycastHit.point, Quaternion.identity);
+            }
+        }
 
     }
      
@@ -99,7 +104,7 @@ public class UIManager : MonoBehaviour
     
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         
-        if (Physics.Raycast(ray, out hitData, 1000, selectableLayer))
+        if (Physics.Raycast(ray, out hitData, 1000, selectableLayer) && m_SimStarted)
         {
             highlightedObject = hitData.transform.gameObject;
             if (Input.GetMouseButtonDown(0))

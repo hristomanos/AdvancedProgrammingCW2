@@ -26,7 +26,6 @@ public class IsInRangeNode : Node
             //Predator is on sight
             if(m_DistanceFromTarget <= m_Range)
             {
-                Debug.Log("Hunter is in range!");
                 return NodeState.SUCCESS;
             }
             else
